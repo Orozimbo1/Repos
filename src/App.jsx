@@ -13,7 +13,7 @@ function App() {
       <GlobalStyles />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/repositorio/:repositorio?" element={<Repositorio />} />
+        <Route path="/repositorio/:repositorio" element={<Repositorio />} />
       </Routes>
     </BrowserRouter>
   )

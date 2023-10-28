@@ -118,7 +118,7 @@ const Home = () => {
               </DeleteButton>
               {repo.name}
             </span>
-            <Link to='/'>
+            <Link to={`repositorio/${encodeURIComponent(repo.name)}`}>
               <FaBars size={20} />
             </Link>
           </li>
