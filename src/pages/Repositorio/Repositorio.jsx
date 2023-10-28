@@ -1,5 +1,5 @@
 // Styles
-import { Container } from "./styles" 
+import { Container, Owner, Load, BackButton } from "./styles" 
 
 // Router
 import { useParams } from "react-router-dom"
@@ -10,19 +10,22 @@ import { useEffect, useState } from "react"
 // Service 
 import api from "../../services/api"
 
-const Repositorios = () => {
-  const { repoRoute } = useParams()
+// Icons
+import { FaUserCircle, FaArrowLeft } from 'react-icons/fa'
 
-  const [repositorio, setRepositorio] = useState({})
+const Repositorios = () => {
+  const { repositorio } = useParams()
+
+  const [repo, setRepo] = useState({})
   const [issues, setIssues] = useState([])
-  const [load, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
 
     const load = async () => {
       const [repoData, issuesData] = await Promise.all([
-        api.get(`/repos/${repoRoute}`),
-        api.get(`/repos/${repoRoute}/issues`, {
+        api.get(`/repos/${repositorio}`),
+        api.get(`/repos/${repositorio}/issues`, {
           params: {
             state: 'open',
             per_page: 5,
@@ -30,17 +33,45 @@ const Repositorios = () => {
         })
       ])
 
-      setRepositorio(repoData.data)
+      setRepo(repoData.data)
       setIssues(issuesData.data)
       setLoading(false)
     }
 
     load()
+    setLoading(false)
 
-  }, [repoRoute])
+  }, [repositorio])
+
+  if(loading) {
+    return (
+      <Load>
+        <p>Carregando...</p>
+      </Load>
+    )
+  }
 
   return (
     <Container>
+      <BackButton to={'/'}>
+        <FaArrowLeft color="#0D2636" size={30} />
+      </BackButton>
+
+      <Owner>
+        {issues.length > 0 ? (
+          <>
+            <img src={`${repo.owner.avatar_url}`} alt={`Imagem do dono do repositório, ${repo.owner.login}`} />
+            <h1>{repo.name}</h1>
+            <p>repo.description</p>
+          </>
+        ) : (
+          <>
+            <FaUserCircle size={150} color="#0D2636" />
+            <h1>Matheus Orozimbo</h1>
+            <p>Desenvolvedor Front-EndDesenvolvedor Front-EndDesenvolvedor Front-EndDesenvolvedor Front-End</p>
+          </>
+        )}
+      </Owner>
     </Container>
   )
 }
