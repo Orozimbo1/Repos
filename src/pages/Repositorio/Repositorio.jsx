@@ -1,5 +1,5 @@
 // Styles
-import { Container, Owner, Load, BackButton, IssuesList, PageActions } from "./styles" 
+import { Container, Owner, Load, BackButton, IssuesList, PageActions, IssuesFilter } from "./styles" 
 
 // Router
 import { useParams } from "react-router-dom"
@@ -20,6 +20,7 @@ const Repositorios = () => {
   const [issues, setIssues] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
+  const [state, setState] = useState('all')
 
   useEffect(() => {
 
@@ -50,7 +51,7 @@ const Repositorios = () => {
 
       const response = await api.get(`repos/${repositorio}/issues`, {
         params: {
-          state: 'open',
+          state,
           page,
           per_page: 5,
         }
@@ -61,7 +62,7 @@ const Repositorios = () => {
 
     loadIssue()
 
-  }, [page])
+  }, [page, state])
 
   const handlePage = (action) => {
     setPage(action === 'back' ? page - 1 : page + 1)
@@ -95,6 +96,30 @@ const Repositorios = () => {
       {issues.length > 0 && (
         <>
           <IssuesList>
+            <IssuesFilter>
+              <button 
+                type="button"
+                onClick={() => setState('all')}
+                disabled={state === 'all'}
+              >
+                Todas
+              </button>
+              <button 
+                type="button"
+                onClick={() => setState('open')}
+                disabled={state === 'open'}
+              >
+                Abertas
+              </button>
+              <button 
+                type="button"
+                onClick={() => setState('closed')}
+                disabled={state === 'closed'}
+              >
+                Fechadas
+              </button>
+            </IssuesFilter>
+
             {issues.map(issue => (
               <li key={String(issue.id)}>
                 <img src={issue.user.avatar_url} alt={`Foto do usuário ${issue.user.login}`} />
