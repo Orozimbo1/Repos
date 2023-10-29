@@ -16,7 +16,7 @@ export const Load = styled.div`
 `;
 
 export const BackButton = styled(Link)`
-  
+
 `;
 
 export const Container = styled.div`
@@ -50,5 +50,70 @@ export const Owner = styled.header`
     text-align: center;
     line-height: 1.4;
     max-width: 400px;
+  }
+`;
+
+export const IssuesList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 30px 0;
+  padding: 30px 0;
+  border-top: 1px solid #EEE;
+  list-style: none;
+
+  li {
+    display: flex;
+    padding: 15px 10px;
+    gap: 12px;
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #0D2636;
+  }
+
+  div {
+    flex: 1;
+
+    p {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0D2636;
+    }
+  }
+
+  strong {
+    display: flex;
+    flex-direction: column;
+    font-size: 17px;
+
+    a {
+      text-decoration: none;
+      color: #222;
+      transition: .3s;
+
+      &:hover {
+        color: #0071DB;
+      }
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    div span {
+      background-color: #222;
+      color: #FFF;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 7px;
+    }
   }
 `;

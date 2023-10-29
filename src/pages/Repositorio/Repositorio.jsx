@@ -1,5 +1,5 @@
 // Styles
-import { Container, Owner, Load, BackButton } from "./styles" 
+import { Container, Owner, Load, BackButton, IssuesList } from "./styles" 
 
 // Router
 import { useParams } from "react-router-dom"
@@ -62,7 +62,7 @@ const Repositorios = () => {
           <>
             <img src={`${repo.owner.avatar_url}`} alt={`Imagem do dono do repositório, ${repo.owner.login}`} />
             <h1>{repo.name}</h1>
-            <p>repo.description</p>
+            <p>{repo.description}</p>
           </>
         ) : (
           <>
@@ -72,6 +72,29 @@ const Repositorios = () => {
           </>
         )}
       </Owner>
+
+      {issues && (
+        <IssuesList>
+          {issues.map(issue => (
+            <li key={String(issue.id)}>
+              <img src={issue.user.avatar_url} alt={`Foto do usuário ${issue.user.login}`} />
+
+              <div>
+                <strong>
+                  <a href={issue.html_url}>{issue.title}</a>
+
+                  <div>
+                    {issue.labels.map(label => (
+                      <span key={String(label.id)}>{label.name}</span>
+                    ))}
+                  </div>
+                </strong>
+                <p>{issue.user.login}</p>
+              </div>
+            </li>
+          ))}
+        </IssuesList>
+      )}
     </Container>
   )
 }
