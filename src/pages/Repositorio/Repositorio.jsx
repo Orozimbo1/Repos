@@ -15,7 +15,7 @@ import { FaUserCircle, FaArrowLeft } from 'react-icons/fa'
 
 const Repositorios = () => {
   const { repositorio } = useParams()
-
+  
   const [repo, setRepo] = useState({})
   const [issues, setIssues] = useState([])
   const [loading, setLoading] = useState(true)
@@ -43,7 +43,7 @@ const Repositorios = () => {
 
   }, [repositorio])
 
-  if(loading) {
+  if(loading & issues.length <= 0) {
     return (
       <Load>
         <p>Carregando...</p>
@@ -58,22 +58,16 @@ const Repositorios = () => {
       </BackButton>
 
       <Owner>
-        {issues.length > 0 ? (
+        {issues.length > 0 && (
           <>
             <img src={`${repo.owner.avatar_url}`} alt={`Imagem do dono do repositório, ${repo.owner.login}`} />
             <h1>{repo.name}</h1>
             <p>{repo.description}</p>
           </>
-        ) : (
-          <>
-            <FaUserCircle size={150} color="#0D2636" />
-            <h1>Matheus Orozimbo</h1>
-            <p>Desenvolvedor Front-EndDesenvolvedor Front-EndDesenvolvedor Front-EndDesenvolvedor Front-End</p>
-          </>
         )}
       </Owner>
 
-      {issues && (
+      {issues.length > 0 && (
         <IssuesList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
